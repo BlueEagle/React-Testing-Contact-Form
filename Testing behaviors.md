@@ -1,7 +1,10 @@
 # Behaviors to test
 
 Input boxes:
-* Text validation does not display unless a user has begun typing.
+  * Text validation does not display if input is empty.
+  * Test each input seperately.
+
+* Text validation displays when a user begins typing.
   * Test each input seperately.
 
 * User can type in each input.
