@@ -1,7 +1,8 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { screen, render, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ContactForm from "../components/ContactForm"
+import { act } from 'react-dom/test-utils'
 
 test("renders contact form without crashing", () => {
   render(<ContactForm />);
@@ -45,3 +46,37 @@ describe("user can type in all inputs", () => {
     expect(input.value).toBe('This is an example of speech synthesis in English.')
   })
 })
+
+
+test("form submits and returns values", async () => {
+  const form = render(<ContactForm />)
+  const firstNameInput = form.getByTestId("firstName")
+  const lastNameInput = form.getByTestId("lastName")
+  const emailInput = form.getByTestId("emailInput")
+
+  userEvent.type(firstNameInput, "John")
+  userEvent.type(lastNameInput, "Doe")
+  userEvent.type(emailInput, "JohnDoe@JohnDoe.com")
+  fireEvent.click(form.getByTestId("submit"))
+
+  expect(await form.findByTestId("result")).toBeInTheDocument()
+})
+
+// test("first names longer of at least 15 characters are allowed", async () => {
+//   const form = render(<ContactForm />)
+//   const input = form.getByPlaceholderText(/edd/i)
+//   const otherInput = form.getByPlaceholderText(/burke/i)
+//   // const firstNameError = form.queryByTestId('firstNameError')
+
+//   userEvent.type(input, "121231231")
+//   fireEvent.click(otherInput)
+
+//   // console.log(firstNameError.queryByTextMatch(/like/i))
+//   // console.log(form.findByTestId('firstNameError'))
+//   // console.log(form.getByText(/like/i))
+//   // console.log(await findByText(/like/i))
+//   const error = await screen.findByText(/like/i)
+//   // expect(screen.findByText(/looks like there was an error/i)).toBeInTheDocument()
+//   expect(error).not.toBeInTheDocument()
+//   // expect(screen.findByTestId('firstNameError')).not.toBeTruthy()
+// })

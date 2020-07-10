@@ -18,10 +18,11 @@ const ContactForm = () => {
           <input
             name="firstName"
             placeholder="Edd"
-            ref={register({ required: true, maxLength: 3 })}
+            data-testid="firstName"
+            ref={register({ required: true, minLength: 3 })}
           />
           {errors.firstName && (
-            <p>Looks like there was an error: {errors.firstName.type}</p>
+            <p data-testid="firstNameError">Looks like there was an error: {errors.firstName.type}</p>
           )}
         </div>
 
@@ -30,6 +31,7 @@ const ContactForm = () => {
           <input
             name="lastName"
             placeholder="Burke"
+            data-testid="lastName"
             ref={register({ required: true })}
           />
           {errors.lastName && (
@@ -51,11 +53,11 @@ const ContactForm = () => {
           <textarea name="message" ref={register({ required: false })} data-testid="messageInput" />
         </div>
         {data && (
-          <pre style={{ textAlign: "left", color: "white" }}>
+          <pre style={{ textAlign: "left", color: "white" }} data-testid="result" >
             {JSON.stringify(data, null, 2)}
           </pre>
         )}
-        <input type="submit" />
+        <input type="submit" data-testid="submit" />
       </form>
     </div>
   );
